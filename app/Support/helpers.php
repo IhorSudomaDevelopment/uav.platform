@@ -17,8 +17,9 @@ if ( ! function_exists('getDefaultPosition')) {
     /*** @return string */
     function getDefaultPosition(): string
     {
-        return DB::table('user_settings')
+        $value= DB::table('user_settings')
             ->where('user_id', auth()->id())
             ->value('default_position');
+        return $value ?? '';
     }
 }

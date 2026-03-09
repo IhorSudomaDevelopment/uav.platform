@@ -9,10 +9,16 @@ use App\Filament\Resources\Ammunitions\Schemas\AmmunitionForm;
 use App\Filament\Resources\Ammunitions\Tables\AmmunitionsTable;
 use App\Models\Ammunition;
 use BackedEnum;
+use Filament\Resources\Pages\PageRegistration;
+use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
+/**
+ *
+ */
 class AmmunitionResource extends Resource
 {
     /*** @var string|null */
@@ -30,23 +36,31 @@ class AmmunitionResource extends Resource
         return 4;
     }
 
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
     public static function form(Schema $schema): Schema
     {
         return AmmunitionForm::configure($schema);
     }
 
+    /**
+     * @param Table $table
+     * @return Table
+     */
     public static function table(Table $table): Table
     {
         return AmmunitionsTable::configure($table);
     }
 
+    /*** @return array|class-string[]|RelationGroup[]|RelationManagerConfiguration[] */
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
+    /*** @return array|PageRegistration[] */
     public static function getPages(): array
     {
         return [
@@ -54,5 +68,11 @@ class AmmunitionResource extends Resource
             'create' => CreateAmmunition::route('/create'),
             'edit' => EditAmmunition::route('/{record}/edit'),
         ];
+    }
+
+    /*** @return bool */
+    public static function shouldRegisterNavigation(): bool
+    {
+        return isRoleAdmin();
     }
 }

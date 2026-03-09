@@ -25,10 +25,11 @@ class FlightsTable
     {
         $actions = [
             ViewAction::make()
+                ->modalHeading('Деталі польоту')
                 ->schema([
-                    TextInput::make('flight_number'),
-                    TextInput::make('coordinates'),
-                    TextInput::make('status'),
+                    TextInput::make('flight_number')->label('Номер польоту'),
+                    TextInput::make('coordinates')->label('Координати (MGRS)'),
+                    TextInput::make('status')->label('Статус'),
                 ]),
         ];
         $bulkActions = [];
@@ -90,7 +91,7 @@ class FlightsTable
                     ->default([
                         'date' => now('Europe/Kyiv')->toDateString(),
                     ])
-                    ->form([
+                    ->schema([
                         DatePicker::make('date')
                             ->native(FALSE)
                             //->default(now('Europe/Kyiv')->toDateString())
