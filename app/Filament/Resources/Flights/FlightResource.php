@@ -83,10 +83,13 @@ class FlightResource extends Resource
         return isRoleAdmin() || isRoleNavigator();
     }
 
+    /**
+     * @return Builder
+     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        if (!isRoleAdmin()) {
+        if (isRoleNavigator()) {
             $query->where('user_id', Auth::id());
         }
         return $query;

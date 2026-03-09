@@ -6,7 +6,6 @@ use App\ValuesObject\TargetStatus;
 use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -21,15 +20,19 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FlightsTable
 {
+    /**
+     * @param Table $table
+     * @return Table
+     */
     public static function configure(Table $table): Table
     {
         $actions = [
             ViewAction::make()
                 ->modalHeading('Деталі польоту')
                 ->schema([
-                    TextInput::make('flight_number')->label('Номер польоту'),
-                    TextInput::make('coordinates')->label('Координати (MGRS)'),
-                    TextInput::make('status')->label('Статус'),
+                    TextInput::make('flight_number')->label('Номер польоту')->copyable(),
+                    TextInput::make('coordinates')->label('Координати (MGRS)')->copyable(),
+                    TextInput::make('status')->label('Статус')->copyable(),
                 ]),
         ];
         $bulkActions = [];
@@ -50,18 +53,17 @@ class FlightsTable
             $actions[] = EditAction::make();
         }
         if (auth()->user()->isPremium()) {
-            $bulkActions[] = BulkActionGroup::make([
-                BulkAction::make('report-bulk')
-                    ->label('Звіт')
-                    ->icon('heroicon-o-rectangle-stack')
-                    ->modalHeading('Звіт за вибрані польоти')
-                    ->modalContent(fn($records) => view('filament.resources.flight-resource.pages.report-flight-daily', [
-                        'flights' => $records,
-                    ]))
-                    ->modalSubmitAction(FALSE)
-                    ->modalCancelActionLabel('Закрити'),
-                //Tables\Actions\DeleteBulkAction::make(),
-            ])->label('Дії');
+            $bulkActions[] = BulkAction::make('report-bulk')
+                ->label('Звіт')
+                ->icon('heroicon-o-rectangle-stack')
+                ->modalHeading('Звіт за вибрані польоти')
+                ->modalContent(fn ($records) => view(
+                    'filament.resources.flight-resource.pages.report-flight-daily',
+                    ['flights' => $records]
+                ))
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Закрити')
+                ->button();
         }
         return $table
             ->columns([

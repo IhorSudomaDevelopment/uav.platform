@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Ammunitions\Tables;
 
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -32,9 +31,7 @@ class AmmunitionsTable
             ])
             ->recordActions($actions)
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                DeleteBulkAction::make(),
             ])
             ->emptyStateHeading('Записів не знайдено');
     }
