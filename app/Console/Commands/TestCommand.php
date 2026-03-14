@@ -36,27 +36,31 @@ class TestCommand extends Command
 //        $num = ($num ?? 0) + 1;
 //        echo $num . PHP_EOL;
         $result = [];
-        $flights = DB::table('flights')->get();
+        $flights = DB::table('flights')->where('position', '=', 'Тестова')->get();
+        $dateCount = count(array_unique(array_column($flights->toArray(), 'date')));
+        if ($dateCount > 1) {
 
-        if (count(array_unique(array_column($flights->toArray(), 'position'))) > 1) {
-            foreach ($flights as $flight) {
-                $result[$flight->position][] = $flight;
-            }
         }
-        $r = [];
-        foreach ($result as $value) {
-            foreach ($value as $flight) {
-                $r[$flight->position][$flight->date][] = $flight;
-            }
-        }
-        foreach ($r as $key => $data) {
-            echo 'Позиція: ' . $key . PHP_EOL;
-            foreach ($data as $date => $info) {
-                echo '-Дата: ' . $date . PHP_EOL;
-                foreach ($info as $flight) {
-                    echo '--Номер польоту: ' . $flight->flight_number . PHP_EOL;
-                }
-            }
-        }
+
+//        if (count(array_unique(array_column($flights->toArray(), 'position'))) > 1) {
+//            foreach ($flights as $flight) {
+//                $result[$flight->position][] = $flight;
+//            }
+//        }
+//        $r = [];
+//        foreach ($result as $value) {
+//            foreach ($value as $flight) {
+//                $r[$flight->position][$flight->date][] = $flight;
+//            }
+//        }
+//        foreach ($r as $key => $data) {
+//            echo 'Позиція: ' . $key . PHP_EOL;
+//            foreach ($data as $date => $info) {
+//                echo '-Дата: ' . $date . PHP_EOL;
+//                foreach ($info as $flight) {
+//                    echo '--Номер польоту: ' . $flight->flight_number . PHP_EOL;
+//                }
+//            }
+//        }
     }
 }
