@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# Встановлюємо потрібні розширення
+# Встановлюємо розширення PHP
 RUN apt-get update && apt-get install -y \
         libcurl4-openssl-dev \
         libxml2-dev \
