@@ -1,5 +1,6 @@
 FROM php:8.2-fpm
 
+# Встановлюємо потрібні розширення
 RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev libxml2-dev libonig-dev unzip git zip libzip-dev \
     && docker-php-ext-install curl mbstring xml bcmath pcntl zip \
