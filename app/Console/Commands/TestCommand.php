@@ -35,31 +35,28 @@ class TestCommand extends Command
 //
 //        $num = ($num ?? 0) + 1;
 //        echo $num . PHP_EOL;
-        $startDate = '2026-03-06';
-        $endDate = '2026-03-07';
-        $query = DB::table('flights')
-            ->where('date', '>=', $startDate)
-            ->where('date', '<=', $endDate)
-            ->get();
-        $status200 = 0;
-        $cover = 0;
-        foreach ($query as $flight) {
-            if ($flight->target === Target::PERSONNEL && str_contains($flight->status, '200')) {
-                $q = substr($flight->status, -7, 1);
-                $status200 += (int)$q;
-            } else if ($flight->target === Target::SHELTER && ($flight->status === TargetStatus::DESTROYED)) {
-                $cover++;
+        $result = [];
+        $flights = DB::table('flights')->get();
+
+        if (count(array_unique(array_column($flights->toArray(), 'position'))) > 1) {
+            foreach ($flights as $flight) {
+                $result[$flight->position][] = $flight;
             }
         }
-
-//        foreach ($query as $status) {
-//            if (str_contains($status, '200')) {
-//                $q = substr($status, -7, 1);
-//                $status200 += (int)$q;
-//            }
-//        }
-        echo $status200 . PHP_EOL;
-        echo $cover . PHP_EOL;
-        // print_r($query);
+        $r = [];
+        foreach ($result as $value) {
+            foreach ($value as $flight) {
+                $r[$flight->position][$flight->date][] = $flight;
+            }
+        }
+        foreach ($r as $key => $data) {
+            echo 'Позиція: ' . $key . PHP_EOL;
+            foreach ($data as $date => $info) {
+                echo '-Дата: ' . $date . PHP_EOL;
+                foreach ($info as $flight) {
+                    echo '--Номер польоту: ' . $flight->flight_number . PHP_EOL;
+                }
+            }
+        }
     }
 }

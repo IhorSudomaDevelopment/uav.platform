@@ -51,6 +51,7 @@
                 $ammunitionData = [];
                 $technics = 0;
                 $technicType = '';
+
                 foreach ($flights as $flight) {
                     foreach ($flight->getAmmunition() as $ammunition) {
                         if (isset($ammunitionData[$ammunition['title']])) {
@@ -67,7 +68,6 @@
                     } else if (($flight->target === Target::PERSONNEL &&
                     (str_starts_with($flight->status, TargetStatus::AFFECTED) || (str_starts_with($flight->status, TargetStatus::DESTROYED)))) ||
                     ($flight->target === Target::SHELTER_WITH_PERSONNEL && str_starts_with($flight->status, TargetStatus::DESTROYED))) {
-
                         $personnel++;
                         $notAffected--;
                         preg_match_all('/(\d+)\s*-\s*(\d+)/', $flight->status, $matches, PREG_SET_ORDER);

@@ -59,7 +59,7 @@ class FlightsTable
                 ->icon('heroicon-o-rectangle-stack')
                 ->modalHeading('Звіт за вибрані польоти')
                 ->modalContent(fn ($records) => view(
-                    'filament.resources.flight-resource.pages.report-flight-daily',
+                    'filament.resources.flight-resource.pages.report-flight-daily-new',
                     ['flights' => $records]
                 ))
                 ->modalSubmitAction(false)
