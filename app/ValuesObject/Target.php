@@ -20,6 +20,8 @@ class Target
     public const DELIVERY = 'Доставка';
     /*** @var string */
     public const UAV = 'БПЛА';
+    /*** @var string */
+    public const MACHINERY = 'Техніка';
 
     /*** @return string[] */
     public static function getList(): array
@@ -33,6 +35,7 @@ class Target
             self::MINING                 => self::MINING,
             self::DELIVERY               => self::DELIVERY,
             self::UAV                    => self::UAV,
+            self::MACHINERY              => self::MACHINERY,
         ];
     }
 }

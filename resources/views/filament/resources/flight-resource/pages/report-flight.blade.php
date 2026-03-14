@@ -22,6 +22,7 @@
 		<x-filament::button
 				type="button"
 				color="primary"
+                style="margin-top: 8px"
 				x-on:click="
                 navigator.clipboard.writeText(
                     document.getElementById('reportText').innerText

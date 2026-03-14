@@ -35,17 +35,15 @@ class CreateFlight extends CreateRecord
     protected function handleRecordCreation(array $data): Model
     {
         $status = $data['status'];
-        if ($data['personnel_200'] > 0 || $data['personnel_300'] > 0) {
-            if ($data['personnel_200'] > 0) {
-                $status = $status . ', ' . $data['personnel_200'] . ' - 200';
-            }
-            if ($data['personnel_300'] > 0) {
-                $status = $status . ', ' . $data['personnel_300'] . ' - 300';
-            }
+        if (isset($data['personnel_200']) && $data['personnel_200'] > 0) {
+            $status = $status . ', ' . $data['personnel_200'] . ' - 200';
+        }
+        if (isset($data['personnel_300']) && $data['personnel_300'] > 0) {
+            $status = $status . ', ' . $data['personnel_300'] . ' - 300';
         }
         $data['status'] = $status;
-        $data           = array_merge($data, [
-            'user_id'    => auth()->id(),
+        $data = array_merge($data, [
+            'user_id' => auth()->id(),
             'ammunition' => $this->formatAmmunition($data['ammunition_items'] ?? []),
         ]);
         return static::getModel()::create($data);
@@ -83,9 +81,9 @@ class CreateFlight extends CreateRecord
      */
     protected function formatAmmunition(array $items): array
     {
-        return array_map(function($item) {
+        return array_map(function ($item) {
             return [
-                'title'    => $item['ammunition'] ?? '-',
+                'title' => $item['ammunition'] ?? '-',
                 'quantity' => $item['quantity'] ?? 0,
             ];
         }, $items);

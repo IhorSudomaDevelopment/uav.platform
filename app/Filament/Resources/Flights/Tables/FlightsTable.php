@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Flights\Tables;
 
+use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Carbon\Carbon;
 use Filament\Actions\Action;
@@ -85,6 +86,10 @@ class FlightsTable
                     ->label('Статус'),
             ])->recordUrl(NULL)
             ->filters([
+                SelectFilter::make('target')
+                    ->label('Ціль')
+                    ->multiple()
+                    ->options(Target::getList()),
                 SelectFilter::make('status')
                     ->label('Статус')
                     ->multiple()
