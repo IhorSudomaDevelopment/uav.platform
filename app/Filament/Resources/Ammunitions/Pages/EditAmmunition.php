@@ -23,4 +23,10 @@ class EditAmmunition extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    /*** @return string */
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
