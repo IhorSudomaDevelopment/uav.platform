@@ -1,35 +1,23 @@
-# Використовуємо сучасний базовий образ Ubuntu
-FROM ubuntu:22.04
+FROM php:8.2-cli
 
-# Встановлюємо необхідні пакети для PHP та PPA
+# Встановлюємо потрібні розширення
 RUN apt-get update && apt-get install -y \
-    software-properties-common \
-    curl \
-    unzip \
-    git \
-    wget \
-    lsb-release \
-    ca-certificates \
-    apt-transport-https \
-    && add-apt-repository ppa:ondrej/php -y \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-       php8.2 \
-       php8.2-cli \
-       php8.2-curl \
-       php8.2-mbstring \
-       php8.2-xml \
+        libcurl4-openssl-dev \
+        libxml2-dev \
+        unzip \
+        git \
+    && docker-php-ext-install curl mbstring xml \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Встановимо робочу директорію
+# Робоча директорія
 WORKDIR /app
 
-# Копіюємо ваші файли в контейнер
+# Копіюємо файли проєкту
 COPY . /app
 
-# Відкриваємо порт (змінити під ваш додаток)
+# Відкриваємо порт для PHP сервера
 EXPOSE 8080
 
-# Команда запуску PHP сервера (змінити під ваш додаток)
+# Команда запуску сервера
 CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
